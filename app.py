@@ -59,6 +59,7 @@ def add():
         }
 
         bookmarks.append(bm)
+        flash(f"Stored {city}")
         return redirect(url_for('index'))
     return render_template('add.html', form=form)
 

@@ -16,20 +16,20 @@ Visited Places - Welcome.
         {% if bookmarks %}
         <ul>
             {% for bm in bookmarks %}
-                <li>{{ bm.user }} added
-                    <a href="{{ bm.url }}" target="_blank">
-                        {% if bm.city %}
-                            {{ bm.city }}
-                        {% else %}
-                            {{ bm.url }}
-                        {% endif %}
-                    </a>
-                    {{ bm.continent }} {{ bm.country }}
-                </li>
+            <li>{{ bm.user }} added
+                <a href="{{ bm.url }}" target="_blank">
+                    {% if bm.city %}
+                    {{ bm.city }}
+                    {% else %}
+                    {{ bm.url }}
+                    {% endif %}
+                </a>
+                {{ bm.continent }} {{ bm.country }}
+            </li>
             {% endfor %}
         </ul>
         {% else %}
-            No places added yet.
+        No places added yet.
         {% endif %}
     </section>
 </article>
