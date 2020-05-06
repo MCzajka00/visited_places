@@ -13,6 +13,15 @@ Visited Places - Welcome.
     </header>
     <section>
         <h2>Recently added</h2>
+        {% if bookmarks %}
+        <ul>
+            {% for bm in bookmarks %}
+                <li>{{ bm.user }} added <a href="{{ bm.url }}" target="_blank">{{ bm.city }}</a> {{ bm.continent }} {{ bm.country }}  </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+            No places added yet.
+        {% endif %}
     </section>
 </article>
 

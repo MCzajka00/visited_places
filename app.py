@@ -2,13 +2,37 @@ from flask import Flask, render_template
 
 app = Flask(__name__)
 
-user = "David"
+bookmarks = [
+    {
+        "user": "Tom",
+        "url": "https://en.wikivoyage.org/wiki/Karlsruhe",
+        "continent": "Europe",
+        "country": "Deutschland",
+        "city": "Karlsruhe"
+    },
+    {
+        "user": "Katie",
+        "url": "https://en.wikivoyage.org/wiki/Split",
+        "continent": "Europe",
+        "country": "Croatia",
+        "city": "Split"
+    },
+    {
+        "user": "Anna",
+        "url": "https://en.wikivoyage.org/wiki/Vienna",
+        "continent": "Europe",
+        "country": "Austria",
+        "city": "Vienna"
+    }
+]
 
+def get_latest_place(limit):
+    return bookmarks[:limit]
 
 @app.route("/")
 @app.route("/index")
 def index():
-    return render_template("index.html", user=user)
+    return render_template("index.html", bookmarks=get_latest_place(5))
 
 
 @app.route("/add")
@@ -27,4 +51,4 @@ def server_error(e):
 
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)
