@@ -1,6 +1,9 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect, url_for, flash
+
+from forms import BookmarkForm
 
 app = Flask(__name__)
+app.config["SECRET_KEY"] = b'\x82\x8a\\\xb5\xbcd\x96\xb1\xb7das\x10e\x1b\x03'
 
 bookmarks = [
     {
@@ -26,8 +29,10 @@ bookmarks = [
     }
 ]
 
+
 def get_latest_place(limit):
     return bookmarks[:limit]
+
 
 @app.route("/")
 @app.route("/index")
@@ -35,9 +40,27 @@ def index():
     return render_template("index.html", bookmarks=get_latest_place(5))
 
 
-@app.route("/add")
+@app.route("/add", methods=['GET', 'POST'])
 def add():
-    return render_template("add.html")
+    form = BookmarkForm()
+
+    if form.validate_on_submit():
+        url = form.url.data
+        continent = form.continent.data
+        country = form.country.data
+        city = form.city.data
+
+        bm = {
+            "user": "Magda",
+            "url": url,
+            "continent": continent,
+            "country": country,
+            "city": city
+        }
+
+        bookmarks.append(bm)
+        return redirect(url_for('index'))
+    return render_template('add.html', form=form)
 
 
 @app.errorhandler(404)
