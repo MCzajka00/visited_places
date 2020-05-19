@@ -1,9 +1,13 @@
 import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import LoginManager
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 db = SQLAlchemy()
+login_manager = LoginManager()
+login_manager.session_protection = 'strong'
+login_manager.login_view = 'bm.login'
 
 
 def create_app():
@@ -15,6 +19,8 @@ def create_app():
 
     visited_places_app.register_blueprint(bp)
     db.init_app(visited_places_app)
+    login_manager.init_app(visited_places_app)
+
     return visited_places_app
 
 
