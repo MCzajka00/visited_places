@@ -1,41 +1,16 @@
 from flask import Flask, render_template, redirect, url_for, flash, Blueprint
 
+from visited_places import db
 from visited_places.forms import BookmarkForm
+from visited_places.models import Bookmark
 
 bp = Blueprint('bm', __name__, url_prefix="/")
-bookmarks = [
-    {
-        "user": "Tom",
-        "url": "https://en.wikivoyage.org/wiki/Karlsruhe",
-        "continent": "Europe",
-        "country": "Deutschland",
-        "city": "Karlsruhe"
-    },
-    {
-        "user": "Katie",
-        "url": "https://en.wikivoyage.org/wiki/Split",
-        "continent": "Europe",
-        "country": "Croatia",
-        "city": "Split"
-    },
-    {
-        "user": "Anna",
-        "url": "https://en.wikivoyage.org/wiki/Vienna",
-        "continent": "Europe",
-        "country": "Austria",
-        "city": "Vienna"
-    }
-]
-
-
-def get_latest_place(limit):
-    return bookmarks[:limit]
 
 
 @bp.route("/")
 @bp.route("/index")
 def index():
-    return render_template("index.html", bookmarks=get_latest_place(5))
+    return render_template("index.html", bookmarks=Bookmark.latest(5))
 
 
 @bp.route("/add", methods=['GET', 'POST'])
@@ -48,17 +23,12 @@ def add():
         country = form.country.data
         city = form.city.data
 
-        bm = {
-            "user": "Magda",
-            "url": url,
-            "continent": continent,
-            "country": country,
-            "city": city
-        }
+        bm = Bookmark(url=url, continent=continent, country=country, city=city)
+        db.session.add(bm)
+        db.session.commit()
 
-        bookmarks.append(bm)
         flash(f"Stored {city}")
-        return redirect(url_for('index'))
+        return redirect(url_for('bm.index'))
     return render_template('add.html', form=form)
 
 
