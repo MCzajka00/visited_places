@@ -16,7 +16,7 @@ Visited Places - Welcome.
         {% if bookmarks %}
         <ul>
             {% for bm in bookmarks %}
-            <li>{{ bm.user }} added
+            <li>{{ bm.user.username }} added
                 <a href="{{ bm.url }}" target="_blank">
                     {% if bm.city %}
                     {{ bm.city }}

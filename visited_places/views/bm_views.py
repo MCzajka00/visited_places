@@ -1,5 +1,5 @@
 from flask import Blueprint, flash, url_for, render_template, redirect
-from flask_login import login_required
+from flask_login import login_required, current_user
 
 from visited_places import db
 from visited_places.forms import BookmarkForm
@@ -19,7 +19,7 @@ def add():
         country = form.country.data
         city = form.city.data
 
-        bm = Bookmark(url=url, continent=continent, country=country, city=city)
+        bm = Bookmark(user=current_user, url=url, continent=continent, country=country, city=city)
         db.session.add(bm)
         db.session.commit()
 

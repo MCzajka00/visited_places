@@ -10,7 +10,7 @@ manager = Manager(app)
 def init_db():
     db.create_all()
 
-    db.session.add(Bookmark(url="https://pl.wikivoyage.org/wiki/Split", continent="Europe", country="Croatia", city="Split"))
+    # db.session.add(Bookmark(url="https://pl.wikivoyage.org/wiki/Split", continent="Europe", country="Croatia", city="Split"))
     db.session.add(User(username="ala", email="a@a.pl", password="test"))
 
     db.session.commit()

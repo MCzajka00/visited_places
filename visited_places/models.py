@@ -13,6 +13,7 @@ class Bookmark(db.Model):
     continent = db.Column(db.String(100))
     country = db.Column(db.String(100))
     city = db.Column(db.String(100))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
     @staticmethod
     def latest(num):
@@ -24,6 +25,7 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(80), unique=True)
     email = db.Column(db.String(120), unique=True)
     password_hash = db.Column(db.String)
+    bookmarks = db.relationship('Bookmark', backref='user', lazy='dynamic')
 
     @property
     def password(self):
