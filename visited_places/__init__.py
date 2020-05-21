@@ -7,7 +7,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 db = SQLAlchemy()
 login_manager = LoginManager()
 login_manager.session_protection = 'strong'
-login_manager.login_view = 'bm.login'
+login_manager.login_view = 'user.login'
 
 
 def create_app():
@@ -17,10 +17,12 @@ def create_app():
     visited_places_app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{os.path.join(basedir, 'visited_places.db')}"
 
     from visited_places.views.default_views import main_bp
-    from visited_places.views2 import bp
+    from visited_places.views.user_views import user_bp
+    from visited_places.views.bm_views import bm_bp
 
     visited_places_app.register_blueprint(main_bp)
-    visited_places_app.register_blueprint(bp)
+    visited_places_app.register_blueprint(user_bp)
+    visited_places_app.register_blueprint(bm_bp)
 
     db.init_app(visited_places_app)
     login_manager.init_app(visited_places_app)
