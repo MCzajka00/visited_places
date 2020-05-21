@@ -1,7 +1,8 @@
 from flask import flash, request, url_for, render_template, redirect, Blueprint
 from flask_login import login_user, logout_user
 
-from visited_places.forms import LoginForm
+from visited_places import db
+from visited_places.forms import LoginForm, SignUpForm
 from visited_places.models import User
 
 user_bp = Blueprint("user", __name__, url_prefix="/users")
@@ -24,3 +25,19 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('main.index'))
+
+
+@user_bp.route("/signup", methods=['GET', 'POST'])
+def signup():
+    form = SignUpForm()
+
+    if form.validate_on_submit():
+        user = User(username=form.username.data, email=form.email.data, password=form.password.data)
+
+        db.session.add(user)
+        db.session.commit()
+
+        flash(f"Welcome {user.username}. Please login")
+        return redirect(url_for('user.login'))
+    return render_template('signup.html', form=form)
+
