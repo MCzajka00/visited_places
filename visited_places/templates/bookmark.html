@@ -8,9 +8,9 @@
         </span>
     </a>
     <div class="info">
-        {% if current_user == bookmark.user %}
+        {% if current_user == bookmark.user and not nolinks %}
         <span class="editlinks">
-            <a href="">Edit</a>
+            <a href="{{ url_for('bm.edit_bookmark', bookmark_id=bookmark.id) }}">Edit</a>
             <a href="{{ url_for('bm.delete_bookmark', bookmark_id=bookmark.id) }}">Delete</a>
         </span>
         {% endif %}

@@ -11,6 +11,7 @@ class BookmarkForm(Form):
     continent = StringField('Add continent where the place is located: ')
     country = StringField('Add country of place: ')
     city = StringField('Add name of place: ')
+    submit = SubmitField('Submit')
 
 
 class LoginForm(Form):

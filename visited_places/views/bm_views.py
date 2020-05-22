@@ -8,9 +8,9 @@ from visited_places.models import Bookmark
 bm_bp = Blueprint('bm', __name__, url_prefix="/bookmarks")
 
 
-@bm_bp.route("/add", methods=['GET', 'POST'])
+@bm_bp.route("/add_bookmark", methods=['GET', 'POST'])
 @login_required
-def add():
+def add_bookmark():
     form = BookmarkForm()
 
     if form.validate_on_submit():
@@ -26,6 +26,23 @@ def add():
         flash(f"Stored {city}")
         return redirect(url_for('user.user', username=current_user.username))
     return render_template('add.html', form=form)
+
+
+@bm_bp.route("/edit/<int:bookmark_id>", methods=['GET', 'POST'])
+@login_required
+def edit_bookmark(bookmark_id):
+    bookmark = Bookmark.query.get_or_404(bookmark_id)
+
+    if current_user != bookmark.user:
+        abort(403)
+
+    form = BookmarkForm(obj=bookmark)
+    if form.validate_on_submit():
+        form.populate_obj(bookmark)
+        db.session.commit()
+        flash(f"It works")
+        return redirect(url_for('user.user', username=current_user.username))
+    return render_template('bookmark_form.html', form=form, title="Edit bookmark")
 
 
 @bm_bp.route('/delete/<int:bookmark_id>', methods=['GET', 'POST'])
@@ -44,5 +61,5 @@ def delete_bookmark(bookmark_id):
         return redirect(url_for('user.user', username=current_user.username))
     else:
         flash("Please confirm deleting the bookmark.")
-    return render_template('confirm_delete.html', bookmark=bookmark)
+    return render_template('confirm_delete.html', bookmark=bookmark, nolinks=True)
 
