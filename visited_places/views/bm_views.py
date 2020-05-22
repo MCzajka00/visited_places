@@ -24,5 +24,5 @@ def add():
         db.session.commit()
 
         flash(f"Stored {city}")
-        return redirect(url_for('main.index'))
+        return redirect(url_for('user.user', username=current_user.username))
     return render_template('add.html', form=form)

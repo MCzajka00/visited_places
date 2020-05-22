@@ -32,6 +32,7 @@
                 <li><a href="{{ url_for('bm.add') }}">Add New Place</a></li>
                 {% if current_user.is_authenticated %}
                     <li><a href="{{ url_for('user.logout') }}">Sign out</a></li>
+                    <li><a href="{{ url_for('user.user', username=current_user.username) }}">Account</a></li>
                 {% else %}
                     <li><a href="{{ url_for('user.signup') }}">Sign Up</a></li>
                     <li><a href="{{ url_for('user.login') }}">Login</a></li>

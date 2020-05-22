@@ -41,3 +41,8 @@ def signup():
         return redirect(url_for('user.login'))
     return render_template('signup.html', form=form)
 
+
+@user_bp.route('/user/<username>')
+def user(username):
+    user_db = User.query.filter_by(username=username).first_or_404()
+    return render_template('user.html', user=user_db)
