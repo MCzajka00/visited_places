@@ -25,3 +25,8 @@ def page_not_found(e):
 @main_bp.errorhandler(500)
 def server_error(e):
     return render_template("500.html"), 500
+
+
+@main_bp.errorhandler(403)
+def forbidden(e):
+    return "strona nie działa"

@@ -1,4 +1,4 @@
-from flask import Blueprint, flash, url_for, render_template, redirect
+from flask import Blueprint, flash, url_for, render_template, redirect, abort, request
 from flask_login import login_required, current_user
 
 from visited_places import db
@@ -26,3 +26,23 @@ def add():
         flash(f"Stored {city}")
         return redirect(url_for('user.user', username=current_user.username))
     return render_template('add.html', form=form)
+
+
+@bm_bp.route('/delete/<int:bookmark_id>', methods=['GET', 'POST'])
+@login_required
+def delete_bookmark(bookmark_id):
+    bookmark = Bookmark.query.get_or_404(bookmark_id)
+
+    if current_user != bookmark.user:
+        abort(403)
+
+    if request.method == 'POST':
+        db.session.delete(bookmark)
+        db.session.commit()
+
+        flash(f"Deleted {bookmark.city}")
+        return redirect(url_for('user.user', username=current_user.username))
+    else:
+        flash("Please confirm deleting the bookmark.")
+    return render_template('confirm_delete.html', bookmark=bookmark)
+
