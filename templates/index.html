@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}
+Visited Places - Welcome.
+{% endblock %}
+
+{% block content %}
+
+<article>
+    <header>
+        <h1>Welcome</h1>
+        <p>Visited Places is a page where you can add a recommendation of places worth visiting.</p>
+    </header>
+    <section>
+        <h2>Recently added</h2>
+        {% if bookmarks %}
+        <ul>
+            {% for bm in bookmarks %}
+            <li>{{ bm.user }} added
+                <a href="{{ bm.url }}" target="_blank">
+                    {% if bm.city %}
+                    {{ bm.city }}
+                    {% else %}
+                    {{ bm.url }}
+                    {% endif %}
+                </a>
+                {{ bm.continent }} {{ bm.country }}
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        No places added yet.
+        {% endif %}
+    </section>
+</article>
+
+{% endblock %}

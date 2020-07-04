@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% from "form_macros.html" import render_field %}
+
+{% block title %}
+Visited Places - Add new place
+{% endblock %}
+
+{% block content %}
+
+<section>
+    <h1>Add a New Place</h1>
+    <form action="" method="post">
+        {{ form.hidden_tag() }}
+        <table>
+            {{ render_field(form.url, size=50) }}
+            {{ render_field(form.continent, size=50) }}
+            {{ render_field(form.country, size=50) }}
+            {{ render_field(form.city, size=50) }}
+
+            <tr class="submit">
+                <td></td>
+                <td>
+                    <button type="submit">Submit</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+</section>
+
+{% endblock %}
+
+{% block sidebar %}
+{% endblock %}
