@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Visited_places - Delete bookmark
+{% endblock %}
+
+{% block content %}
+
+<section>
+    <h1>Confirm Delete</h1>
+    {% include "bookmark.html" %}
+    <form
+            action="{{ url_for('bm.delete_bookmark', bookmark_id=bookmark.id) }}"
+            method="post"
+    >
+    <span>Are You sure?</span><br><br>
+    <a href="{{ url_for('user.user', username=current_user.username) }}">No, leave it.</a>
+    <button type="submit">Yes, delete it.</button>
+    </form>
+</section>
+
+{% endblock %}
